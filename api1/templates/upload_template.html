@@ -1,0 +1,84 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Identity Verification System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body class="text-dark bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand active" href="#">
+                <img src='{% static "image/logo2.png" %}' alt="" width="30" height="30" class="rounded-circle mx-3 align-content-center"> Personal Identity Verification System</a>
+
+
+            <ul class="navbar-nav ml-5">
+                <li class="nav-item">
+                    <a class="nav-link ml-5" aria-current="page" href="{% url 'facematchapp:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-2 text-Bold active text-danger" href="{% url 'facematchapp:upload' %}">Compare Images</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-2" href="{% url 'facematchapp:confusion_matrix' %}">Confusion Matrix</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+    </nav>
+    <div class="container mt-2">
+        <h1 class="mb-4 text-center">Upload Images</h1>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="mb-3 col-5">
+                    <label for="image1Input" class="form-label">Upload Image 1</label>
+                    <input type="file" class="form-control" name="image1" id="image1Input" onchange="previewImage('image1Input', 'image1Preview')">
+                    <img src="" id="image1Preview" class="mt-2" style="max-width: 300px; max-height: 300px;">
+                </div>
+                <div class="mb-3 col-5">
+                    <label for="image2Input" class="form-label">Upload Image 2</label>
+                    <input type="file" class="form-control" name="image2" id="image2Input" onchange="previewImage('image2Input', 'image2Preview')">
+                    <img src="" id="image2Preview" class="mt-2" style="max-width: 300px; max-height: 300px;">
+                </div>
+                <div class="col-2 text-center mt-5 pt-5">
+                    <div class="row">
+                        <div class="col mt-5">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+        function previewImage(inputId, previewId) {
+            var input = document.getElementById(inputId);
+            var preview = document.getElementById(previewId);
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</body>
+
+</html>
